@@ -50,17 +50,18 @@ def process_image(image_path):
     '''
     image = Image.open(image_path)
     width, height = image.size
-    image.thumbnail((1000000, 256)) if width > height else image.thumbnail((256, 200000))
+    image.thumbnail((1000000, 256)) if width > height else image.thumbnail(
+        (256, 200000))
     width, height = image.size
-    left = (width - 224)/2.
-    top = (height - 224)/2.
-    right = (width + 224)/2.
-    bottom = (height + 224)/2.
+    left = (width - 224) / 2.
+    top = (height - 224) / 2.
+    right = (width + 224) / 2.
+    bottom = (height + 224) / 2.
     im = image.crop((left, top, right, bottom))
-    np_im = np.array(im)/255
+    np_im = np.array(im) / 255
     mean = np.array([0.485, 0.456, 0.406])
     std = np.array([0.229, 0.224, 0.225])
-    np_im = (np_im - mean)/std
+    np_im = (np_im - mean) / std
     np_im = np_im.transpose((2, 0, 1))
 
     return np_im
@@ -109,11 +110,13 @@ def view_classify(image_path, probs, flowers):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Predict flower name from an image')
+    parser = argparse.ArgumentParser(
+        description='Predict flower name from an image')
     parser.add_argument('image_path', help='image  path')
     parser.add_argument('checkpoint', help='checkpoint file')
     parser.add_argument('--top_k', help='K most likely classes')
-    parser.add_argument('--category_names', help='mapping of categories to real names')
+    parser.add_argument('--category_names',
+                        help='mapping of categories to real names')
     parser.add_argument('--gpu', help='execution on gpu', action="store_true")
     args = parser.parse_args()
     topk = args.top_k if args.top_k else 5
